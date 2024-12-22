@@ -5,7 +5,7 @@ import FinalPoem from './FinalPoem';
 import RecentSubmission from './RecentSubmission';
 
 const buildLine = (formData, fields) => {
- const line = fields.map((field) => {
+  const line = fields.map((field) => {
     if (field.key) {
       return formData[field.key];
     } else {
@@ -63,9 +63,12 @@ const Game = () => {
       }
       {
         !done &&
-      <PlayerSubmissionForm index={lines.length + 1} sendSubmission={handleSubmission}/>
+      <PlayerSubmissionForm
+        index={lines.length + 1}
+        sendSubmission={handleSubmission}
+        fields={FIELDS}
+      />
       }
-
       <FinalPoem isSubmitted={done} submissions={lines} revealPoem={handleRevealPoem}/>
 
     </div>
