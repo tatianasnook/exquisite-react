@@ -5,6 +5,21 @@ import FinalPoem from './FinalPoem';
 import RecentSubmission from './RecentSubmission';
 
 const Game = () => {
+  const [lines, setLines] = useState([]);
+  const [done, setDone] = useState(false);
+
+  const handleSubmission = (formData) => {
+    setLines(lines => [...lines, formData]);
+  };
+
+  const handleRevealPoem = () => {
+    setDone(true);
+  };
+
+  // const mostRecentSubmission = lines[lines.length - 1];
+  const mostRecentSubmission = lines.at(-1) || '';
+
+
   const exampleFormat = FIELDS.map((field) => {
     if (field.key) {
       return field.placeholder;
@@ -30,12 +45,17 @@ const Game = () => {
       <p className="Game__format-example">
         {exampleFormat}
       </p>
-
-      <RecentSubmission />
-
-      <PlayerSubmissionForm />
-
-      <FinalPoem />
+      
+      {
+        lines.length > 0 && !done &&
+        <RecentSubmission submission={mostRecentSubmission} />
+      }
+      {
+        !done &&
+      <PlayerSubmissionForm index={lines.length + 1} sendSubmission={handleSubmission}/>
+      }
+      
+      <FinalPoem isSubmitted={done} submissions={lines} revealPoem={handleRevealPoem}/>
 
     </div>
   );
